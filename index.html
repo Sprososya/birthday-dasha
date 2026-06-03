@@ -60,19 +60,31 @@
             transform: scale(1.1);
         }
 
-        /* 🎥 Видео скрыто до клика */
+        /* 🎥 Блок с видео (скрыт до клика) */
         #videoBlock {
             display: none;
             animation: fadeInUp 1s ease-out;
+            margin-bottom: 20px;
         }
 
-        iframe {
-            width: 100%;
-            max-width: 550px;
-            height: 700px;
-            border-radius: 20px;
+        /* Квадратное видео с закруглёнными краями */
+        .video-frame {
+            width: 320px;
+            height: 320px;
+            max-width: 80vw;
+            max-height: 80vw;
+            border-radius: 30px;
+            overflow: hidden;
             border: 3px solid #ffb6d9;
             box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            margin: 0 auto;
+        }
+
+        .video-frame video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
 
         .signature {
@@ -143,7 +155,7 @@
 
         /* 🕯️ Свечи */
         .candles {
-            margin-top: 20px;
+            margin-top: 10px;
             display: flex;
             gap: 20px;
             justify-content: center;
@@ -193,7 +205,7 @@
 <body>
 
     <div class="container">
-        <h1>С днём рождения, Даша! 🎀</h1>
+        <h1>С днём рождения, Дарья! 🎀</h1>
 
         <div class="cute-text">
             Пусть этот день будет таким же нежным, тёплым и красивым, как ты.  
@@ -207,12 +219,11 @@
 
         <!-- 🎥 Видео появляется после клика -->
         <div id="videoBlock">
-            <iframe 
-                id="tiktokVideo"
-                src=""
-                allow="autoplay; encrypted-media"
-                allowfullscreen>
-            </iframe>
+            <div class="video-frame">
+                <video id="birthdayVideo" autoplay loop muted playsinline>
+                    <source src="https://raw.githubusercontent.com/sprososya/birthday-dasha/main/video.mp4" type="video/mp4">
+                </video>
+            </div>
         </div>
 
         <!-- 🕯️ Свечи -->
@@ -223,20 +234,22 @@
         </div>
 
         <div class="signature">
-            С любовью, твоя Лена из Белгорода 💗
+            С любовью, твоя подруга 💗
         </div>
     </div>
 
     <script>
-        /* 🎁 Открытие подарка + автозапуск видео */
+        /* 🎁 Открытие подарка + запуск видео */
         function openGift() {
-            document.getElementById("videoBlock").style.display = "block";
+            const block = document.getElementById("videoBlock");
+            block.style.display = "block";
 
-            // Вставляем ссылку ТОЛЬКО после клика → autoplay работает
-            document.getElementById("tiktokVideo").src =
-                "https://raw.githubusercontent.com/sprososya/birthday-dasha/main/video.mp4";
+            const video = document.getElementById("birthdayVideo");
+            // на всякий случай пробуем запустить программно
+            if (video) {
+                video.play().catch(() => {});
+            }
 
-            // Немного анимации при открытии
             for (let i = 0; i < 10; i++) setTimeout(createBalloon, i * 150);
         }
 
