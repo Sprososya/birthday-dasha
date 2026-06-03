@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>С днём рождения, Дарья!</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Segoe UI", system-ui, sans-serif;
+            background: linear-gradient(135deg, #ffd6e9, #ffeef7, #e8f6ff);
+            overflow-x: hidden;
+        }
+
+        .container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: #ff5fa2;
+            text-shadow: 0 0 12px rgba(255, 95, 162, 0.4);
+            margin-bottom: 10px;
+            animation: fadeInDown 1.2s ease-out;
+        }
+
+        .cute-text {
+            font-size: 1.4rem;
+            color: #555;
+            font-style: italic;
+            max-width: 650px;
+            line-height: 1.7;
+            margin-bottom: 25px;
+            animation: fadeIn 2s ease-out;
+        }
+
+        /* 🎁 Кнопка-подарок */
+        .gift-btn {
+            width: 120px;
+            height: 120px;
+            background: #ff8fb8;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(255, 95, 162, 0.4);
+            transition: transform 0.2s ease;
+            margin-bottom: 20px;
+        }
+
+        .gift-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* 🎥 Видео скрыто до клика */
+        #videoBlock {
+            display: none;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        iframe {
+            width: 100%;
+            max-width: 550px;
+            height: 700px;
+            border-radius: 20px;
+            border: 3px solid #ffb6d9;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .signature {
+            margin-top: 15px;
+            font-style: italic;
+            color: #777;
+            animation: fadeIn 2.4s ease-out;
+        }
+
+        /* 🎈 Шарики */
+        .balloon {
+            position: fixed;
+            bottom: -150px;
+            width: 60px;
+            height: 80px;
+            border-radius: 50%;
+            background: pink;
+            animation: floatUp linear infinite;
+            z-index: -1;
+        }
+
+        .balloon::after {
+            content: "";
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            width: 2px;
+            height: 40px;
+            background: #888;
+            transform: translateX(-50%);
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0); opacity: 0; }
+            10% { opacity: 1; }
+            100% { transform: translateY(-120vh); opacity: 0; }
+        }
+
+        /* ✨ Блёстки */
+        .sparkle {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            background: radial-gradient(circle, white, pink);
+            border-radius: 50%;
+            animation: sparkleAnim 2s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes sparkleAnim {
+            0% { transform: scale(0.5); opacity: 1; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+
+        /* 💕 Сердечки (исчезают на середине экрана) */
+        .heart {
+            position: fixed;
+            color: #ff7aa8;
+            font-size: 22px;
+            animation: heartFloat 3s ease-in-out forwards;
+            pointer-events: none;
+        }
+
+        @keyframes heartFloat {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-50vh) scale(1.8); opacity: 0; }
+        }
+
+        /* 🕯️ Свечи */
+        .candles {
+            margin-top: 20px;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .candle {
+            width: 20px;
+            height: 60px;
+            background: #ffe0f4;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .flame {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            width: 14px;
+            height: 20px;
+            background: radial-gradient(circle, #fff7a8, #ffb347);
+            border-radius: 50%;
+            transform: translateX(-50%);
+            animation: flameFlicker 0.15s infinite alternate;
+        }
+
+        @keyframes flameFlicker {
+            from { transform: translateX(-50%) scale(1); }
+            to   { transform: translateX(-50%) scale(1.15); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>С днём рождения, Даша! 🎀</h1>
+
+        <div class="cute-text">
+            Пусть этот день будет таким же нежным, тёплым и красивым, как ты.  
+            Ты приносишь в жизнь свет, уют и вдохновение — и я так счастлива,
+            что могу поздравить тебя в этот особенный момент.  
+            Пусть мечты сбываются легко, а сердце всегда будет наполнено радостью.
+        </div>
+
+        <!-- 🎁 Кнопка -->
+        <div class="gift-btn" onclick="openGift()">🎁</div>
+
+        <!-- 🎥 Видео появляется после клика -->
+        <div id="videoBlock">
+            <iframe 
+                id="tiktokVideo"
+                src=""
+                allow="autoplay; encrypted-media"
+                allowfullscreen>
+            </iframe>
+        </div>
+
+        <!-- 🕯️ Свечи -->
+        <div class="candles">
+            <div class="candle"><div class="flame"></div></div>
+            <div class="candle"><div class="flame"></div></div>
+            <div class="candle"><div class="flame"></div></div>
+        </div>
+
+        <div class="signature">
+            С любовью, твоя Лена из Белгорода 💗
+        </div>
+    </div>
+
+    <script>
+        /* 🎁 Открытие подарка + автозапуск видео */
+        function openGift() {
+            document.getElementById("videoBlock").style.display = "block";
+
+            // Вставляем ссылку ТОЛЬКО после клика → autoplay работает
+            document.getElementById("tiktokVideo").src =
+                "https://www.tiktok.com/embed/7645966513169567008";
+
+            // Немного анимации при открытии
+            for (let i = 0; i < 10; i++) setTimeout(createBalloon, i * 150);
+        }
+
+        /* 🎈 Шарики */
+        function createBalloon() {
+            const balloon = document.createElement('div');
+            balloon.classList.add('balloon');
+
+            const colors = ['#ff9ecb','#ffd1e8','#ffb6d9','#ffc7f2','#ffe0f4','#ff8fb8'];
+            balloon.style.background = colors[Math.floor(Math.random() * colors.length)];
+            balloon.style.left = Math.random() * 100 + 'vw';
+            balloon.style.animationDuration = 8 + Math.random() * 6 + 's';
+            balloon.style.transform = 'scale(' + (0.7 + Math.random() * 0.8) + ')';
+
+            document.body.appendChild(balloon);
+            setTimeout(() => balloon.remove(), 15000);
+        }
+
+        setInterval(createBalloon, 700);
+
+        /* ✨ Блёстки */
+        setInterval(() => {
+            const s = document.createElement('div');
+            s.classList.add('sparkle');
+            s.style.left = Math.random() * 100 + 'vw';
+            s.style.top = Math.random() * 100 + 'vh';
+            document.body.appendChild(s);
+            setTimeout(() => s.remove(), 2000);
+        }, 150);
+
+        /* 💕 Сердечки */
+        setInterval(() => {
+            const h = document.createElement('div');
+            h.classList.add('heart');
+            h.innerHTML = '💕';
+            h.style.left = Math.random() * 100 + 'vw';
+            h.style.top = '100vh';
+            document.body.appendChild(h);
+            setTimeout(() => h.remove(), 3000);
+        }, 800);
+    </script>
+
+</body>
+</html>
