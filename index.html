@@ -67,10 +67,10 @@
             margin-bottom: 20px;
         }
 
-        /* Квадратное видео с закруглёнными краями */
+        /* Квадратное видео */
         .video-frame {
-            width: 320px;
-            height: 320px;
+            width: 350px;
+            height: 350px;
             max-width: 80vw;
             max-height: 80vw;
             border-radius: 30px;
@@ -139,7 +139,7 @@
             100% { transform: scale(1.5); opacity: 0; }
         }
 
-        /* 💕 Сердечки (исчезают на середине экрана) */
+        /* 💕 Сердечки */
         .heart {
             position: fixed;
             color: #ff7aa8;
@@ -217,10 +217,10 @@
         <!-- 🎁 Кнопка -->
         <div class="gift-btn" onclick="openGift()">🎁</div>
 
-        <!-- 🎥 Видео появляется после клика -->
+        <!-- 🎥 Видео -->
         <div id="videoBlock">
             <div class="video-frame">
-                <video id="birthdayVideo" autoplay loop muted playsinline>
+                <video id="birthdayVideo" autoplay loop playsinline>
                     <source src="https://raw.githubusercontent.com/sprososya/birthday-dasha/main/video.mp4" type="video/mp4">
                 </video>
             </div>
@@ -239,14 +239,16 @@
     </div>
 
     <script>
-        /* 🎁 Открытие подарка + запуск видео */
+        /* 🎁 Открытие подарка + включение звука */
         function openGift() {
             const block = document.getElementById("videoBlock");
             block.style.display = "block";
 
             const video = document.getElementById("birthdayVideo");
-            // на всякий случай пробуем запустить программно
+
             if (video) {
+                video.muted = false;   // включаем звук
+                video.volume = 1.0;    // громкость 100%
                 video.play().catch(() => {});
             }
 
