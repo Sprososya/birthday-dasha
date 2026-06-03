@@ -40,34 +40,67 @@
             animation: fadeIn 2s ease-out;
         }
 
-        /* 🎁 Кнопка-подарок */
-        .gift-btn {
-            width: 120px;
-            height: 120px;
-            background: #ff8fb8;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 60px;
+        /* 🎁 Анимированный подарок */
+        .gift-box {
+            position: relative;
+            width: 140px;
+            height: 140px;
             cursor: pointer;
-            box-shadow: 0 10px 25px rgba(255, 95, 162, 0.4);
-            transition: transform 0.2s ease;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            animation: giftIdle 2s infinite ease-in-out;
         }
 
-        .gift-btn:hover {
+        @keyframes giftIdle {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        .box {
+            width: 100%;
+            height: 100%;
+            background: #ff8fb8;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(255, 95, 162, 0.4);
+        }
+
+        .lid {
+            position: absolute;
+            top: -20px;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background: #ff6fa5;
+            border-radius: 20px;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+        }
+
+        .bow {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 40px;
+            pointer-events: none;
+        }
+
+        /* Анимация открытия */
+        .gift-open .lid {
+            transform: translateY(-80px) rotate(-20deg);
+            opacity: 0;
+        }
+
+        .gift-open {
+            animation: none;
             transform: scale(1.1);
         }
 
-        /* 🎥 Блок с видео (скрыт до клика) */
+        /* 🎥 Блок с видео */
         #videoBlock {
             display: none;
             animation: fadeInUp 1s ease-out;
             margin-bottom: 20px;
         }
 
-        /* Квадратное видео */
         .video-frame {
             width: 350px;
             height: 350px;
@@ -214,8 +247,12 @@
             Пусть мечты сбываются легко, а сердце всегда будет наполнено радостью.
         </div>
 
-        <!-- 🎁 Кнопка -->
-        <div class="gift-btn" onclick="openGift()">🎁</div>
+        <!-- 🎁 Анимированный подарок -->
+        <div class="gift-box" onclick="openGift()">
+            <div class="lid"></div>
+            <div class="box"></div>
+            <div class="bow">🎀</div>
+        </div>
 
         <!-- 🎥 Видео -->
         <div id="videoBlock">
@@ -241,14 +278,18 @@
     <script>
         /* 🎁 Открытие подарка + включение звука */
         function openGift() {
+            const gift = document.querySelector(".gift-box");
+            gift.classList.add("gift-open");
+
             const block = document.getElementById("videoBlock");
-            block.style.display = "block";
+            setTimeout(() => {
+                block.style.display = "block";
+            }, 500);
 
             const video = document.getElementById("birthdayVideo");
-
             if (video) {
-                video.muted = false;   // включаем звук
-                video.volume = 1.0;    // громкость 100%
+                video.muted = false;
+                video.volume = 1.0;
                 video.play().catch(() => {});
             }
 
