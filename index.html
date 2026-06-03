@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>С днём рождения, Дарья!</title>
+    <title>С днём рождения, Даша!</title>
     <style>
         body {
             margin: 0;
@@ -43,11 +43,12 @@
         /* 🎁 Анимированный подарок */
         .gift-box {
             position: relative;
-            width: 140px;
-            height: 140px;
+            width: 150px;
+            height: 150px;
             cursor: pointer;
             margin-bottom: 25px;
             animation: giftIdle 2s infinite ease-in-out;
+            filter: drop-shadow(0 0 15px rgba(255, 120, 180, 0.6));
         }
 
         @keyframes giftIdle {
@@ -65,36 +66,36 @@
 
         .lid {
             position: absolute;
-            top: -20px;
+            top: -25px;
             left: 0;
             width: 100%;
-            height: 40px;
+            height: 45px;
             background: #ff6fa5;
             border-radius: 20px;
-            transition: transform 0.5s ease, opacity 0.5s ease;
+            transition: transform 0.6s ease, opacity 0.6s ease;
         }
 
         .bow {
             position: absolute;
-            top: -10px;
+            top: -5px;
             left: 50%;
             transform: translateX(-50%);
             font-size: 40px;
             pointer-events: none;
         }
 
-        /* Анимация открытия */
+        /* Открытие */
         .gift-open .lid {
-            transform: translateY(-80px) rotate(-20deg);
+            transform: translateY(-120px) rotate(-35deg);
             opacity: 0;
         }
 
         .gift-open {
             animation: none;
-            transform: scale(1.1);
+            transform: scale(1.15);
         }
 
-        /* 🎥 Блок с видео */
+        /* 🎥 Видео */
         #videoBlock {
             display: none;
             animation: fadeInUp 1s ease-out;
@@ -125,6 +126,25 @@
             font-style: italic;
             color: #777;
             animation: fadeIn 2.4s ease-out;
+        }
+
+        /* 🎉 Конфетти */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 14px;
+            background: red;
+            top: 50%;
+            left: 50%;
+            opacity: 0.9;
+            transform: translate(-50%, -50%);
+            animation: confettiFall 2.2s linear forwards;
+            pointer-events: none;
+        }
+
+        @keyframes confettiFall {
+            0% { transform: translate(-50%, -50%) rotate(0deg); opacity: 1; }
+            100% { transform: translate(calc(-50% + (200px - 400px * random())), 120vh) rotate(360deg); opacity: 0; }
         }
 
         /* 🎈 Шарики */
@@ -237,8 +257,10 @@
 </head>
 <body>
 
+    <audio id="popSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_7f3c3e0f3e.mp3?filename=pop-94319.mp3"></audio>
+
     <div class="container">
-        <h1>С днём рождения, Дарья! 🎀</h1>
+        <h1>С днём рождения, Даша! 🎀</h1>
 
         <div class="cute-text">
             Пусть этот день будет таким же нежным, тёплым и красивым, как ты.  
@@ -271,15 +293,17 @@
         </div>
 
         <div class="signature">
-            С любовью, твоя подруга 💗
+            С любовью, твоя Лена из Белгорода 💗
         </div>
     </div>
 
     <script>
-        /* 🎁 Открытие подарка + включение звука */
+        /* 🎁 Открытие подарка + звук + видео + конфетти */
         function openGift() {
             const gift = document.querySelector(".gift-box");
             gift.classList.add("gift-open");
+
+            document.getElementById("popSound").play();
 
             const block = document.getElementById("videoBlock");
             setTimeout(() => {
@@ -293,7 +317,26 @@
                 video.play().catch(() => {});
             }
 
+            for (let i = 0; i < 30; i++) {
+                setTimeout(createConfetti, i * 50);
+            }
+
             for (let i = 0; i < 10; i++) setTimeout(createBalloon, i * 150);
+        }
+
+        /* 🎉 Конфетти */
+        function createConfetti() {
+            const c = document.createElement("div");
+            c.classList.add("confetti");
+
+            const colors = ["#ff6fa5", "#ff9ecb", "#ffd1e8", "#ffc7f2", "#ffe0f4", "#ff8fb8"];
+            c.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+            c.style.left = (50 + (Math.random() * 20 - 10)) + "%";
+            c.style.top = "45%";
+
+            document.body.appendChild(c);
+            setTimeout(() => c.remove(), 2200);
         }
 
         /* 🎈 Шарики */
