@@ -49,6 +49,7 @@
             margin-bottom: 25px;
             animation: giftIdle 2s infinite ease-in-out;
             filter: drop-shadow(0 0 15px rgba(255, 120, 180, 0.6));
+            transition: opacity 0.5s ease, transform 0.5s ease;
         }
 
         @keyframes giftIdle {
@@ -95,6 +96,12 @@
             transform: scale(1.15);
         }
 
+        /* Исчезновение подарка */
+        .gift-hide {
+            opacity: 0;
+            transform: scale(0.6);
+        }
+
         /* 🎥 Видео */
         #videoBlock {
             display: none;
@@ -126,25 +133,6 @@
             font-style: italic;
             color: #777;
             animation: fadeIn 2.4s ease-out;
-        }
-
-        /* 🎉 Конфетти */
-        .confetti {
-            position: fixed;
-            width: 10px;
-            height: 14px;
-            background: red;
-            top: 50%;
-            left: 50%;
-            opacity: 0.9;
-            transform: translate(-50%, -50%);
-            animation: confettiFall 2.2s linear forwards;
-            pointer-events: none;
-        }
-
-        @keyframes confettiFall {
-            0% { transform: translate(-50%, -50%) rotate(0deg); opacity: 1; }
-            100% { transform: translate(calc(-50% + (200px - 400px * random())), 120vh) rotate(360deg); opacity: 0; }
         }
 
         /* 🎈 Шарики */
@@ -298,18 +286,30 @@
     </div>
 
     <script>
-        /* 🎁 Открытие подарка + звук + видео + конфетти */
+        /* 🎁 Открытие подарка + исчезновение + видео */
         function openGift() {
             const gift = document.querySelector(".gift-box");
             gift.classList.add("gift-open");
 
             document.getElementById("popSound").play();
 
+            // Плавное исчезновение подарка
+            setTimeout(() => {
+                gift.classList.add("gift-hide");
+            }, 400);
+
+            // Полное удаление подарка
+            setTimeout(() => {
+                gift.style.display = "none";
+            }, 900);
+
+            // Появление видео
             const block = document.getElementById("videoBlock");
             setTimeout(() => {
                 block.style.display = "block";
-            }, 500);
+            }, 600);
 
+            // Включаем звук
             const video = document.getElementById("birthdayVideo");
             if (video) {
                 video.muted = false;
@@ -317,26 +317,8 @@
                 video.play().catch(() => {});
             }
 
-            for (let i = 0; i < 30; i++) {
-                setTimeout(createConfetti, i * 50);
-            }
-
+            // Шарики
             for (let i = 0; i < 10; i++) setTimeout(createBalloon, i * 150);
-        }
-
-        /* 🎉 Конфетти */
-        function createConfetti() {
-            const c = document.createElement("div");
-            c.classList.add("confetti");
-
-            const colors = ["#ff6fa5", "#ff9ecb", "#ffd1e8", "#ffc7f2", "#ffe0f4", "#ff8fb8"];
-            c.style.background = colors[Math.floor(Math.random() * colors.length)];
-
-            c.style.left = (50 + (Math.random() * 20 - 10)) + "%";
-            c.style.top = "45%";
-
-            document.body.appendChild(c);
-            setTimeout(() => c.remove(), 2200);
         }
 
         /* 🎈 Шарики */
